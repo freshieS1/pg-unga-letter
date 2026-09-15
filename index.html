@@ -587,8 +587,16 @@
   });
 
   /* ---------------- staff panel ---------------- */
+  // Same iOS quirk as the attract screen's "tap anywhere": a bare, non-button <div>
+  // doesn't reliably synthesize a "click" from a touch tap. Worse here — since this
+  // toggle never called preventDefault/stopPropagation, a tap that didn't register on
+  // it was free to fall through to the attract screen's own touch handler underneath,
+  // which is exactly why tapping the corner was just advancing to the letter screen
+  // instead of opening the staff panel. Binding touchend directly, with
+  // stopPropagation, fixes both problems at once.
   var staffTapCount = 0, staffTapTimer = null;
-  $("staff-toggle").addEventListener("click", function(){
+  function registerStaffTap(e){
+    if (e){ e.preventDefault(); e.stopPropagation(); }
     staffTapCount++;
     clearTimeout(staffTapTimer);
     staffTapTimer = setTimeout(function(){ staffTapCount = 0; }, 1500);
@@ -596,7 +604,9 @@
       staffTapCount = 0;
       openStaffPanel();
     }
-  });
+  }
+  $("staff-toggle").addEventListener("click", registerStaffTap);
+  $("staff-toggle").addEventListener("touchend", registerStaffTap);
   $("staff-close").addEventListener("click", function(){ showScreen("attract"); });
 
   function openStaffPanel(){
