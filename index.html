@@ -68,6 +68,13 @@
   }
   .bar .brand{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;}
   .bar .step{font-size:13px;color:var(--text-soft);}
+  .bar-left{display:flex;align-items:center;gap:16px;}
+  .home-btn{
+    background:none;border:1px solid var(--line);border-radius:6px;
+    color:var(--text-soft);font-size:13px;font-weight:600;
+    padding:7px 12px;cursor:pointer;font-family:inherit;
+  }
+  .home-btn:active{background:var(--line);color:#fff;}
 
   /* ---------- LETTER ---------- */
   .letter-wrap{flex:1;display:flex;flex-direction:column;padding:16px 6vw;overflow:hidden;}
@@ -189,22 +196,28 @@
 
   <!-- LETTER -->
   <div class="screen" id="screen-letter" data-screen="letter">
-    <div class="bar"><span class="brand">Planetary Guardians</span><span class="step">Step 1 of 2 — Read the letter</span></div>
+    <div class="bar">
+      <div class="bar-left">
+        <button class="home-btn" id="btn-home-letter" aria-label="Back to start">&#8249; Start over</button>
+        <span class="brand">Planetary Guardians</span>
+      </div>
+      <span class="step">Step 1 of 2 — Read the letter</span>
+    </div>
     <div class="letter-wrap">
       <div class="letter-scroll" id="letter-scroll">
         <h2>Dear UN Security Council President Jérôme Bonnafont and UN General Assembly President Khalilur Rahman,</h2>
         <div class="letter-body">
-          <p>As Planetary Guardians, scientists, and concerned global citizens, we urge you to have an annual planetary science security briefing.</p>
-          <p>Seven out of the nine planetary boundaries have been breached — three quarters of our life support system. The recent 2026 Planetary Health Check shows that the boundary transgressions are increasingly severe and headed in the wrong direction. We are seeing the impacts of this around the world.</p>
-          <p>The health of the planet, human health, economic stability, and security are all deeply interconnected. This has been demonstrated through the suffering caused by the increasing intensity of horrific natural disasters, air pollution, extreme heat, chemical pollution, food and water scarcity, and other symptoms of the breaching of planetary boundaries.</p>
-          <p>We have the independent planetary science that is critical to help inform your decision making to avert future security, health, and economic risks. We are ready to bring together a group of independent, world class scientists and other experts to prepare and present annual planetary science security briefings.</p>
+          <p>As Planetary Guardians, scientists, and concerned global citizens, we urge you to have an annual planetary science security briefing for the UN Security Council and the UN General Assembly.</p>
+          <p>Seven out of the nine planetary boundaries have been breached, three-quarters of our life support system. The 2026 Planetary Health Check shows that these boundary transgressions are becoming increasingly severe and continue to move in the wrong direction. We are seeing the impacts of this around the world.</p>
+          <p>The health of the planet, human health, economic stability, and security are all deeply interconnected. This connection is evident in the growing suffering caused by increasingly horrific natural disasters, air pollution, extreme heat, chemical pollution, food and water scarcity, and other consequences of breached planetary boundaries.</p>
+          <p>We have the independent planetary science that is critical to help inform your decision-making to avert security, health, and economic risks. We are ready to bring together a group of independent, world class scientists and other experts to prepare and present annual planetary science security briefings.</p>
         </div>
         <div class="asks">
-          <div class="ask-card"><div class="num">ASK ONE</div><p>Hold an annual Planetary Science Security Briefing.</p></div>
-          <div class="ask-card"><div class="num">ASK TWO</div><p>Encourage countries to appoint Chief Planetary Scientists.</p></div>
+          <div class="ask-card"><div class="num">ASK ONE</div><p>An annual Planetary Science and Security briefing for the UN Security Council and the UN General Assembly.</p></div>
+          <div class="ask-card"><div class="num">ASK TWO</div><p>The appointment of Chief Planetary Scientists in nations, cities and companies.</p></div>
         </div>
         <div class="letter-body">
-          <p>We also encourage you to ask nations to put in place Chief Planetary Scientists to embed planetary science into decision making to minimise future risks. Belgium has already done this, with several nations set to follow by the end of this year. This community can become a trusted network to identify future security, health and economic risks and to share solutions to get us back to a "safe operating zone" within planetary boundaries.</p>
+          <p>We also encourage you to call on nations to appoint Chief Planetary Scientists to embed planetary science into decision-making to minimise future risks. Belgium has already done this, with several nations set to follow by the end of this year. This community can become a trusted network to identify future security, health and economic risks and to share solutions to get us back to a "safe operating space" within planetary boundaries.</p>
           <p>You can change the course of history for the better by putting planetary science at the core of the UN Security Council and the UN General Assembly.</p>
           <p>We would be honored to support you and the citizens you work to protect.</p>
           <p class="sign-off">With gratitude for considering this,<br>Planetary Guardians</p>
@@ -442,6 +455,11 @@
   }
   function startDraw(e){
     e.preventDefault();
+    // Dismiss the on-screen keyboard if a text field (first/last name, country, email)
+    // was focused right before someone taps the signature pad.
+    if (document.activeElement && document.activeElement !== document.body && document.activeElement.blur){
+      document.activeElement.blur();
+    }
     drawing = true;
     $("sig-placeholder").style.display = "none";
     curStroke = [posFromEvent(e)];
@@ -484,6 +502,7 @@
     $("screen-attract").addEventListener("touchend", goToLetter);
   })();
   $("btn-to-sign").addEventListener("click", function(){ showScreen("sign"); });
+  $("btn-home-letter").addEventListener("click", function(){ resetFormAndGoAttract(); });
   $("btn-back").addEventListener("click", function(){ showScreen("letter"); });
 
   $("chk-updates").addEventListener("change", function(){
