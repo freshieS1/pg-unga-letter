@@ -658,6 +658,19 @@
   updateStaffStats();
   flushQueue();
   showScreen("attract");
+
+  // Offline resilience: cache this page itself via a service worker, so that if the
+  // tablet loses connectivity and the page needs a fresh load (device restart, Safari
+  // killed and reopened), it still opens from the last successfully-loaded copy instead
+  // of failing outright. Network-first: whenever online, always loads the latest
+  // deployed version and refreshes the cache; only falls back to the cached copy when
+  // the network fetch fails. Requires https (GitHub Pages) or localhost — silently
+  // no-ops on a plain file:// load, which is fine, that path doesn't need it anyway.
+  if ("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){ /* offline-cache is a nice-to-have, never block the app on it */ });
+    });
+  }
 })();
 </script>
 </body>
