@@ -157,7 +157,6 @@
   }
   #screen-confirm h1{font-size:clamp(26px,3.6vw,44px);font-weight:800;margin:0 0 16px;color:#fff;letter-spacing:-.4px;}
   #screen-confirm p{font-size:16px;color:var(--text-soft);max-width:560px;margin:0 auto 10px;line-height:1.5;}
-  .count-line{font-size:14px;color:var(--accent);margin-top:22px;font-weight:600;}
   .done-btn{margin-top:34px;background:transparent;border:1px solid var(--accent-dark);color:var(--accent);padding:14px 30px;border-radius:10px;font-size:15px;font-weight:700;}
 
   /* ---------- STAFF PANEL ---------- */
@@ -211,6 +210,7 @@
           <p>Seven out of the nine Planetary Boundaries have been breached, three-quarters of our life support system. The 2026 Planetary Health Check shows that these boundary transgressions are becoming increasingly severe and continue to move in the wrong direction. We are seeing the impacts of this around the world.</p>
           <p>The health of the planet, human health, economic stability, and security are all deeply interconnected. This connection is evident in the growing suffering caused by increasingly horrific natural disasters, air pollution, extreme heat, chemical pollution, food and water scarcity, and other consequences of breached Planetary Boundaries.</p>
           <p>We have the independent planetary science that is critical to help inform your decision-making to avert security, health, and economic risks. We are ready to bring together a group of independent, world class scientists and other experts to prepare and present annual planetary science security briefings.</p>
+          <p>This could be well timed in relation to the post-2030 agenda. It may be helpful for the 2027 UN SDG Summit to have a planetary scientific assessment in relation to health, security and equity. We are at your disposal to provide a synthesis of the evidence supporting a definition and quantification of safe targets for a stable, resilient and life-supporting planet as a foundation for aspirational goals for human dignity, and social stability across the world.</p>
         </div>
         <div class="asks">
           <div class="ask-card"><div class="num">ASK ONE</div><p>An annual Planetary Science and Security briefing for the UN Security Council and the UN General Assembly.</p></div>
@@ -288,7 +288,6 @@
     <h1>Thanks for adding your voice.</h1>
     <p>Your name will travel with Planetary Guardians and an international group of scientists to the UN Security Council and General Assembly.</p>
     <p id="confirm-updates-note" style="display:none;">We'll keep you updated on progress via email.</p>
-    <div class="count-line" id="confirm-count"></div>
     <button class="done-btn" id="btn-done">Done</button>
   </div>
 
@@ -554,12 +553,11 @@
       synced: false
     };
 
-    var totalCount = addRecord(rec);
+    addRecord(rec);
     attemptSync(rec);
     lastSubmission = rec;
 
     $("confirm-updates-note").style.display = wantsUpdates ? "block" : "none";
-    $("confirm-count").textContent = "Signature #" + totalCount;
 
     resetFormFieldsOnly();
     showScreen("confirm");
